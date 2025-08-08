@@ -58,25 +58,41 @@
       { name: "octa", role: "Intern", flag: "🇺🇸" }
     ];
 
-     const secretPassword = "API-IdkkDirector";
-
+    const secretPassword = "API-IdkkDirector";
 
     function renderStaff() {
       staffList.innerHTML = "";
       initialStaff.forEach(member => {
-        const li = document.createElement("li");
-        li.className = "bg-white/20 p-4 rounded-lg flex justify-between items-center animate__animated animate__fadeInLeft";
-        li.innerHTML = `
-          <div>
-            <p class="font-bold">${member.flag} ${member.name}</p>
-            <p class="text-sm text-gray-300">${member.role}</p>
-          </div>
-          <button onclick="this.parentElement.remove()" class="bg-red-500 px-3 py-1 rounded-lg hover:bg-red-600">
-            Remove
-          </button>
-        `;
+        const li = createStaffListItem(member.flag, member.name, member.role);
         staffList.appendChild(li);
       });
+    }
+
+    function createStaffListItem(flag, name, role) {
+      const li = document.createElement("li");
+      li.className = "bg-white/20 p-4 rounded-lg flex justify-between items-center animate__animated animate__fadeInLeft";
+
+      li.innerHTML = `
+        <div>
+          <p class="font-bold">${flag} ${name}</p>
+          <p class="text-sm text-gray-300">${role}</p>
+        </div>
+        <button class="remove-btn bg-red-500 px-3 py-1 rounded-lg hover:bg-red-600">
+          Remove
+        </button>
+      `;
+
+      const removeBtn = li.querySelector(".remove-btn");
+      removeBtn.addEventListener("click", () => {
+        const password = prompt("Enter the secret password to remove staff:");
+        if (password !== secretPassword) {
+          alert("Incorrect password. You are not authorized to remove staff.");
+          return;
+        }
+        li.remove();
+      });
+
+      return li;
     }
 
     function addStaff() {
@@ -93,24 +109,12 @@
         return;
       }
 
-      const li = document.createElement("li");
-      li.className = "bg-white/20 p-4 rounded-lg flex justify-between items-center animate__animated animate__fadeInLeft";
-
-      li.innerHTML = `
-        <div>
-          <p class="font-bold">🌐 ${name}</p>
-          <p class="text-sm text-gray-300">${role}</p>
-        </div>
-        <button onclick="this.parentElement.remove()" class="bg-red-500 px-3 py-1 rounded-lg hover:bg-red-600">
-          Remove
-        </button>
-      `;
-
+      const li = createStaffListItem("🌐", name, role);
       staffList.appendChild(li);
       document.getElementById("name").value = "";
     }
 
-    // Load preloaded staff
+    // Load preloaded staff on page load
     renderStaff();
   </script>
 </body>
