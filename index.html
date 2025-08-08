@@ -51,12 +51,15 @@
     const staffList = document.getElementById("staffList");
 
     // Preloaded staff with flags & correct roles
-const initialStaff = [
-  { name: "idkkk08714p", role: "Director", flag: "🇺🇸" },
-  { name: "etherealerror123", role: "Intern", flag: "🇬🇧" },
-  { name: "hydro", role: "Intern", flag: "🇬🇧" },
-  { name: "octa", role: "Intern", flag: "🇺🇸" }
-];
+    const initialStaff = [
+      { name: "idkkk08714p", role: "Director", flag: "🇺🇸" },
+      { name: "etherealerror123", role: "Intern", flag: "🇬🇧" },
+      { name: "hydro", role: "Intern", flag: "🇬🇧" },
+      { name: "octa", role: "Intern", flag: "🇺🇸" }
+    ];
+
+     const secretPassword = "API-IdkkDirector";
+
 
     function renderStaff() {
       staffList.innerHTML = "";
@@ -77,9 +80,18 @@ const initialStaff = [
     }
 
     function addStaff() {
+      const password = prompt("Enter the secret password to add staff:");
+      if (password !== secretPassword) {
+        alert("Incorrect password. You are not authorized to add staff.");
+        return;
+      }
+
       const name = document.getElementById("name").value.trim();
       const role = document.getElementById("role").value;
-      if (!name) return;
+      if (!name) {
+        alert("Please enter a staff name.");
+        return;
+      }
 
       const li = document.createElement("li");
       li.className = "bg-white/20 p-4 rounded-lg flex justify-between items-center animate__animated animate__fadeInLeft";
